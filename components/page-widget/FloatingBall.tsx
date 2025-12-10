@@ -26,61 +26,90 @@ export const FloatingBall: React.FC<FloatingBallProps> = ({ config, badgeCount, 
         >
             <div className={`relative w-16 h-16 transition-transform duration-300 ease-out ${isDragging ? 'scale-95 cursor-grabbing' : 'hover:scale-110'}`}>
                 
-                {/* --- 1. Ground Shadow (彩色投影) --- */}
-                {/* 投影带有气泡的幻彩颜色，增加真实感 */}
-                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 w-10 h-3 bg-gradient-to-r from-cyan-400/20 via-purple-400/20 to-pink-400/20 blur-[8px] rounded-[100%] transition-all duration-300 group-hover:scale-75 group-hover:opacity-30 pointer-events-none"></div>
+                {/* --- 1. Ground Shadow (投影) --- */}
+                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 w-8 h-2 bg-blue-900/30 blur-[6px] rounded-[100%] transition-all duration-300 group-hover:scale-75 group-hover:opacity-20 pointer-events-none"></div>
 
-                {/* --- 2. The Iridescent Soap Bubble (五彩斑斓的肥皂泡) --- */}
-                <div className="relative w-full h-full rounded-full select-none animate-[breathe_6s_ease-in-out_infinite]">
+                {/* --- 2. The 3D Crystal Sphere (透明水晶球) --- */}
+                <div className="relative w-full h-full rounded-full select-none animate-[float_6s_ease-in-out_infinite]">
                     
-                    {/* Thin Film Interference Texture (薄膜干涉纹理) */}
-                    {/* 关键层：使用 conic-gradient 模拟阳光下的彩虹色油膜效果，mix-blend-mode 保证通透 */}
-                    <div className="absolute inset-0 rounded-full opacity-60 bg-[conic-gradient(from_180deg_at_50%_50%,rgba(255,182,193,0.1)_0deg,rgba(135,206,235,0.2)_60deg,rgba(255,255,224,0.1)_120deg,rgba(221,160,221,0.2)_180deg,rgba(135,206,235,0.2)_240deg,rgba(255,192,203,0.2)_300deg,rgba(255,182,193,0.1)_360deg)] border border-white/40 backdrop-blur-[0.5px]"></div>
-                    
-                    {/* Structural Volume & Colored Rims (体积感与彩色边缘) */}
-                    {/* 内阴影叠加：白色高光边缘 + 青色/粉色环境光边缘，让气泡在白底上也能看清轮廓 */}
-                    <div className="absolute inset-0 rounded-full shadow-[inset_0_0_12px_rgba(255,255,255,0.6),inset_2px_4px_8px_rgba(255,255,255,0.9),inset_-4px_-4px_12px_rgba(56,189,248,0.3),inset_4px_-6px_12px_rgba(236,72,153,0.2)]"></div>
+                    {/* Glass Body & Boundary Texture (玻璃体与边界纹路) */}
+                    {/* 
+                       background: 极淡的渐变，保证通透
+                       border: 外部锐利边缘
+                       shadow: 内部厚度感与环境光反射
+                    */}
+                    <div className="absolute inset-0 rounded-full 
+                        bg-gradient-to-br from-white/10 via-white/5 to-blue-50/10
+                        backdrop-blur-[0.5px]
+                        border-[1.5px] border-white/50
+                        shadow-[inset_0_0_6px_2px_rgba(255,255,255,0.3),inset_-4px_-4px_8px_rgba(59,130,246,0.2),0_4px_12px_rgba(0,0,0,0.1)]">
+                    </div>
 
-                    {/* --- 3. Internal Object: Orbiting Star (星轨原子 - 回归) --- */}
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] opacity-95">
-                            {/* Core Sphere */}
-                            <circle cx="24" cy="24" r="7" fill="url(#core_grad)" stroke="rgba(255,255,255,0.6)" strokeWidth="0.5" />
-                            
-                            {/* Orbit 1 - Horizontalish */}
-                            <ellipse cx="24" cy="24" rx="19" ry="6" stroke="url(#orbit_grad)" strokeWidth="1.5" transform="rotate(-30 24 24)" className="animate-[spin_8s_linear_infinite]" style={{ transformOrigin: 'center' }}/>
-                            {/* Particle on Orbit 1 */}
-                            <circle cx="43" cy="24" r="2.5" fill="white" transform="rotate(-30 24 24)">
-                                <animateTransform attributeName="transform" type="rotate" from="0 24 24" to="360 24 24" dur="8s" repeatCount="indefinite" />
-                            </circle>
+                    {/* Iridescent Surface Texture (表面七彩纹理) */}
+                    {/* 模拟样图中球体表面的微妙色彩反光 */}
+                    <div className="absolute inset-0 rounded-full opacity-50 mix-blend-overlay bg-[conic-gradient(from_20deg,transparent_0%,rgba(236,72,153,0.15)_30%,rgba(59,130,246,0.15)_60%,transparent_90%)]"></div>
 
-                            {/* Orbit 2 - Verticalish */}
-                            <ellipse cx="24" cy="24" rx="19" ry="6" stroke="url(#orbit_grad)" strokeWidth="1.5" transform="rotate(60 24 24)" className="animate-[spin_10s_linear_infinite_reverse]" style={{ transformOrigin: 'center' }}/>
-                            
+                    {/* --- 3. Internal Content: Star & Orbit (星星与环绕) --- */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <svg width="42" height="42" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_4px_6px_rgba(0,0,0,0.1)]">
                             <defs>
-                                <radialGradient id="core_grad" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(20 20) rotate(45) scale(12)">
-                                    <stop stopColor="#FFFFFF" />
-                                    <stop offset="1" stopColor="#BAE6FD" /> {/* Sky blue tint */}
-                                </radialGradient>
-                                <linearGradient id="orbit_grad" x1="5" y1="24" x2="43" y2="24" gradientUnits="userSpaceOnUse">
-                                    <stop stopColor="white" stopOpacity="0.1" />
-                                    <stop offset="0.5" stopColor="white" stopOpacity="0.9" />
-                                    <stop offset="1" stopColor="white" stopOpacity="0.1" />
+                                <linearGradient id="starGold" x1="32" y1="10" x2="32" y2="54" gradientUnits="userSpaceOnUse">
+                                    <stop stopColor="#FCD34D" /> {/* Amber 300 */}
+                                    <stop offset="1" stopColor="#F59E0B" /> {/* Amber 500 */}
                                 </linearGradient>
+                                {/* Orbit Gradient: Blue to Purple fade */}
+                                <linearGradient id="orbitGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stopColor="#60A5FA" stopOpacity="0" />
+                                    <stop offset="40%" stopColor="#3B82F6" stopOpacity="0.9" />
+                                    <stop offset="100%" stopColor="#C084FC" stopOpacity="0" />
+                                </linearGradient>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
                             </defs>
+
+                            {/* The Orbit Ring (环绕光轨) */}
+                            {/* Ellipse rotated to go from Top-Right area to Bottom-Left area */}
+                            <ellipse 
+                                cx="32" 
+                                cy="32" 
+                                rx="26" 
+                                ry="8" 
+                                stroke="url(#orbitGrad)" 
+                                strokeWidth="2.5" 
+                                strokeLinecap="round"
+                                fill="none"
+                                transform="rotate(-45 32 32)"
+                                className="opacity-90"
+                            />
+                            
+                            {/* The Star (星星) */}
+                            <path 
+                                d="M32 12 L37 23.5 H49.5 L40 31.5 L43.5 44 L32 36.5 L20.5 44 L24 31.5 L14.5 23.5 H27 L32 12 Z" 
+                                fill="url(#starGold)" 
+                                stroke="#FFFBEB" 
+                                strokeWidth="1"
+                                strokeLinejoin="round"
+                                filter="url(#glow)"
+                                className="animate-[pulse_4s_ease-in-out_infinite]"
+                            />
+                            
+                            {/* Small sparkle on the orbit */}
+                            <circle cx="50" cy="14" r="1.5" fill="white" className="animate-ping opacity-80" />
                         </svg>
                     </div>
 
-                    {/* --- 4. Surface Highlights (表面高光细节) --- */}
+                    {/* --- 4. Surface Highlights (高光细节) --- */}
                     
-                    {/* Main Reflection (Window/Sun Reflection) */}
-                    <div className="absolute top-[12%] left-[14%] w-[40%] h-[22%] bg-gradient-to-b from-white to-transparent rounded-[100%] blur-[1.5px] opacity-90 transform -rotate-45 pointer-events-none"></div>
+                    {/* Top Right Specular (主高光 - 锐利) */}
+                    <div className="absolute top-[15%] right-[22%] w-[15%] h-[10%] bg-white rounded-[100%] blur-[2px] opacity-90 transform rotate-45 pointer-events-none shadow-[0_0_10px_rgba(255,255,255,0.8)]"></div>
                     
-                    {/* Sharp Specular Dot (Point Light) */}
-                    <div className="absolute top-[18%] left-[18%] w-[5px] h-[5px] bg-white rounded-full shadow-[0_0_6px_rgba(255,255,255,1)] pointer-events-none"></div>
-
-                    {/* Bottom Rim Reflection (Environment Bounce) */}
-                    <div className="absolute bottom-[8%] right-[10%] w-[45%] h-[20%] bg-gradient-to-t from-white/40 via-purple-100/10 to-transparent rounded-[100%] blur-[2px] transform -rotate-12 pointer-events-none"></div>
+                    {/* Bottom Left Rim Reflection (反光 - 柔和) */}
+                    <div className="absolute bottom-[10%] left-[15%] w-[40%] h-[25%] bg-gradient-to-t from-white/30 to-transparent rounded-[100%] blur-[4px] transform -rotate-12 pointer-events-none"></div>
 
                 </div>
 
@@ -99,13 +128,9 @@ export const FloatingBall: React.FC<FloatingBallProps> = ({ config, badgeCount, 
             
             {/* Inject Animation Styles */}
             <style>{`
-                @keyframes breathe {
-                    0%, 100% { transform: scale(1); }
-                    50% { transform: scale(1.04); }
-                }
-                @keyframes spin {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(360deg); }
+                @keyframes float {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-4px); }
                 }
             `}</style>
         </div>
