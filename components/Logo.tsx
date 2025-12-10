@@ -4,12 +4,12 @@ import React from 'react';
 export const Logo: React.FC<{ className?: string, withText?: boolean, textClassName?: string }> = ({ className, withText = true, textClassName }) => {
   return (
     // 使用 group 允许外部 hover 控制
-    // 将 gap-4 增加到 gap-6，让图标在视觉上往左移动
-    <div className={`relative flex items-center gap-6 select-none ${className}`}>
+    // 增加 gap-7 让图标更靠左
+    <div className={`relative flex items-center gap-7 select-none ${className}`}>
       
       {/* 1. Logo Icon: 复刻版蓝色星球图标 */}
-      <div className="relative w-12 h-12 shrink-0 group">
-         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-xl filter transition-all duration-300 group-hover:scale-105 group-hover:brightness-110">
+      <div className="relative w-14 h-14 shrink-0 group">
+         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-2xl filter transition-all duration-300 group-hover:scale-105 group-hover:brightness-110">
             <defs>
                 <linearGradient id="logo_blue_gradient" x1="24" y1="0" x2="24" y2="48" gradientUnits="userSpaceOnUse">
                     <stop stopColor="#3B82F6" />
@@ -51,37 +51,47 @@ export const Logo: React.FC<{ className?: string, withText?: boolean, textClassN
          </svg>
       </div>
 
-      {/* 2. Text Logo: 文字部分 - 完全复刻样式 */}
+      {/* 2. Text Logo: 完全拆分的字符布局 */}
       {withText && (
-        <div className={`relative flex items-baseline tracking-tighter cursor-default ${textClassName}`}>
+        <div className={`relative flex items-end font-sans ${textClassName}`}>
             
-            {/* Re: 白色，发光，超粗字体 */}
-            <span className="text-4xl font-extrabold text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] mr-0.5">
-            Re
-            </span>
+            {/* R */}
+            <span className="text-5xl font-black text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.6)] leading-none tracking-[-0.05em] z-10">R</span>
+            
+            {/* e */}
+            <span className="text-5xl font-black text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.6)] leading-none tracking-[-0.05em] z-10">e</span>
+            
+            {/* W - 稍微增加左边距，与Re分开一点点 */}
+            <span className="text-5xl font-black text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] leading-none tracking-[-0.05em] ml-1 z-10">W</span>
+            
+            {/* o */}
+            <span className="text-5xl font-black text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] leading-none tracking-[-0.05em] z-10">o</span>
+            
+            {/* r */}
+            <span className="text-5xl font-black text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] leading-none tracking-[-0.05em] z-10">r</span>
+            
+            {/* d */}
+            <span className="text-5xl font-black text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] leading-none tracking-[-0.05em] z-10">d</span>
 
-            {/* Word: 蓝色，发光，超粗字体 */}
-            <span className="text-4xl font-extrabold text-blue-500 drop-shadow-[0_0_12px_rgba(59,130,246,0.6)]">
-            Word
-            </span>
+            {/* --- 中文装饰字符 (绝对定位) --- */}
 
-            {/* 易: 青色，强烈发光，左上角点缀，位置校准 */}
-            <span className="absolute -top-4 -left-3 text-2xl font-serif font-black text-emerald-400 transform -rotate-12 drop-shadow-[0_0_10px_rgba(52,211,153,1)] z-10 filter contrast-125">
+            {/* 易: 青色，位于 R 和 e 之间上方 */}
+            <span className="absolute -top-5 left-8 text-3xl font-serif font-black text-emerald-400 transform -rotate-12 drop-shadow-[0_0_8px_rgba(52,211,153,1)] z-20 filter contrast-125 opacity-90">
             易
             </span>
 
-            {/* 语: 紫色，强烈发光，底部中间点缀，位置校准 */}
-            <span className="absolute -bottom-3 left-[36%] text-2xl font-serif font-black text-fuchsia-400 transform rotate-6 drop-shadow-[0_0_10px_rgba(232,121,249,1)] z-10 filter contrast-125">
+            {/* 语: 紫色，位于 W 和 o 之间下方 */}
+            <span className="absolute -bottom-3 left-[46%] text-3xl font-serif font-black text-fuchsia-400 transform rotate-12 drop-shadow-[0_0_8px_rgba(232,121,249,1)] z-20 filter contrast-125 opacity-90">
             语
             </span>
 
-            {/* 道: 橙色，强烈发光，右上角点缀，位置校准 */}
-            <span className="absolute -top-4 -right-4 text-2xl font-serif font-black text-orange-400 transform rotate-12 drop-shadow-[0_0_10px_rgba(251,146,60,1)] z-10 filter contrast-125">
+            {/* 道: 橙色，位于 d 的右上方 */}
+            <span className="absolute -top-5 -right-3 text-3xl font-serif font-black text-orange-400 transform rotate-6 drop-shadow-[0_0_8px_rgba(251,146,60,1)] z-20 filter contrast-125 opacity-90">
             道
             </span>
             
-            {/* 底部环境光晕，增加沉浸感 */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-blue-500/5 blur-3xl rounded-full -z-10"></div>
+            {/* 底部环境光晕 */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[160%] bg-blue-500/10 blur-3xl rounded-full -z-10"></div>
         </div>
       )}
     </div>
