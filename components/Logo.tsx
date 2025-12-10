@@ -4,26 +4,50 @@ import React from 'react';
 export const Logo: React.FC<{ className?: string, withText?: boolean, textClassName?: string }> = ({ className, withText = true, textClassName }) => {
   return (
     // 使用 group 允许外部 hover 控制
-    <div className={`relative flex items-center gap-3.5 select-none ${className}`}>
+    <div className={`relative flex items-center gap-4 select-none ${className}`}>
       
-      {/* 1. Logo Icon: 左侧图形图标 */}
-      <div className="relative w-11 h-11 shrink-0 flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl shadow-lg shadow-blue-900/30 border border-white/10 group overflow-hidden">
-         {/* Glossy Reflection */}
-         <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
-         
-         {/* Main Icon: Book */}
-         <svg className="w-6 h-6 text-white drop-shadow-md transform group-hover:scale-105 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-             <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
-             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" className="opacity-50" />
+      {/* 1. Logo Icon: 复刻版蓝色星球图标 */}
+      <div className="relative w-12 h-12 shrink-0 group">
+         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-xl filter transition-all duration-300 group-hover:scale-105 group-hover:brightness-110">
+            <defs>
+                <linearGradient id="logo_blue_gradient" x1="24" y1="0" x2="24" y2="48" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#3B82F6" />
+                    <stop offset="1" stopColor="#2563EB" />
+                </linearGradient>
+                <filter id="logo_glow_filter" x="0" y="0" width="48" height="48" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                    <feOffset/>
+                    <feGaussianBlur stdDeviation="2"/>
+                    <feComposite in2="hardAlpha" operator="out"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0"/>
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+                </filter>
+            </defs>
+
+            {/* Background Circle */}
+            <circle cx="24" cy="24" r="22" fill="url(#logo_blue_gradient)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+            
+            {/* Inner Glow Overlay */}
+            <circle cx="24" cy="24" r="20" fill="white" fillOpacity="0.05" style={{mixBlendMode: 'overlay'}} />
+
+            {/* Orbital Ring */}
+            <ellipse cx="24" cy="24" rx="16" ry="7" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" transform="rotate(-45 24 24)" />
+            
+            {/* Orbiting Dots */}
+            <circle cx="37" cy="11" r="1.5" fill="white" />
+            <circle cx="11" cy="37" r="1.5" fill="white" />
+
+            {/* Central Sparkle (Star) */}
+            <path d="M24 14L26 22L34 24L26 26L24 34L22 26L14 24L22 22L24 14Z" fill="white" filter="url(#logo_glow_filter)" />
+
+            {/* '文' Character - Yellow - Top Left */}
+            <text x="10" y="19" fill="#fbbf24" fontSize="13" fontWeight="900" fontFamily="serif" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>文</text>
+
+            {/* 'A' Character - Green - Bottom Right */}
+            <text x="30" y="37" fill="#34d399" fontSize="14" fontWeight="900" fontFamily="sans-serif" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>A</text>
          </svg>
-         
-         {/* Badge: Recycle/Re Arrow */}
-         <div className="absolute bottom-1 right-1 bg-white text-blue-600 rounded-full p-[2px] shadow-sm border border-blue-100 z-10">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="w-3 h-3" strokeLinecap="round" strokeLinejoin="round">
-               <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-               <path d="M3 3v5h5" />
-            </svg>
-         </div>
       </div>
 
       {/* 2. Text Logo: 文字部分 */}
@@ -31,32 +55,32 @@ export const Logo: React.FC<{ className?: string, withText?: boolean, textClassN
         <div className={`relative flex items-baseline tracking-tighter cursor-default ${textClassName}`}>
             
             {/* Re: 白色，发光，粗字体 */}
-            <span className="text-3xl font-extrabold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] mr-[1px]">
+            <span className="text-3xl font-extrabold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] mr-[1px]">
             Re
             </span>
 
             {/* Word: 蓝色，发光，粗字体 */}
-            <span className="text-3xl font-extrabold text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]">
+            <span className="text-3xl font-extrabold text-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">
             Word
             </span>
 
             {/* 易: 青色，强烈发光，左上角点缀，微倾斜 */}
-            <span className="absolute -top-3 -left-2 text-xl font-serif font-black text-emerald-400 transform -rotate-12 drop-shadow-[0_0_10px_rgba(52,211,153,0.9)] z-10 opacity-95 filter contrast-125">
+            <span className="absolute -top-3 -left-2 text-xl font-serif font-black text-emerald-400 transform -rotate-12 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)] z-10 opacity-95 filter contrast-125">
             易
             </span>
 
             {/* 语: 紫色，强烈发光，底部中间点缀，微倾斜 */}
-            <span className="absolute -bottom-2 left-[38%] text-xl font-serif font-black text-fuchsia-400 transform rotate-6 drop-shadow-[0_0_10px_rgba(232,121,249,0.9)] z-10 opacity-95 filter contrast-125">
+            <span className="absolute -bottom-2 left-[38%] text-xl font-serif font-black text-fuchsia-400 transform rotate-6 drop-shadow-[0_0_8px_rgba(232,121,249,0.8)] z-10 opacity-95 filter contrast-125">
             语
             </span>
 
             {/* 道: 橙色，强烈发光，右上角点缀，微倾斜 */}
-            <span className="absolute -top-3 -right-3 text-xl font-serif font-black text-orange-400 transform rotate-12 drop-shadow-[0_0_10px_rgba(251,146,60,0.9)] z-10 opacity-95 filter contrast-125">
+            <span className="absolute -top-3 -right-3 text-xl font-serif font-black text-orange-400 transform rotate-12 drop-shadow-[0_0_8px_rgba(251,146,60,0.8)] z-10 opacity-95 filter contrast-125">
             道
             </span>
             
             {/* 底部环境光晕，增加沉浸感 */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-500/10 blur-2xl rounded-full -z-10"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-500/5 blur-2xl rounded-full -z-10"></div>
         </div>
       )}
     </div>
